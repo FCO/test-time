@@ -1,0 +1,21 @@
+{
+  "name": "Test::Time",
+  "perl": "v6.*",
+  "scripts": {
+    "test": "zef test ."
+  },
+  "tags": [
+    "test",
+    "time",
+    "now",
+    "date",
+    "sleep"
+  ],
+  "license": "https://opensource.org/licenses/Artistic-2.0",
+  "production": false,
+  "version": "0.0.1",
+  "authors": [
+    "fernando"
+  ],
+  "description": ""
+}
