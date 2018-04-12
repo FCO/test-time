@@ -40,10 +40,10 @@ is time - $before-time, 1;
 
 $before-now     = now;
 $before-time    = time;
-mock-time realy-sleep => * / 10;
+mock-time :exact, realy-sleep => * / 10;
 sleep 10;
 cmp-ok now - $before-now, ">=", 10;
-is time - $before-time, 10;
+is time - $before-time, 9;
 unmock-time;
 cmp-ok now - $before-now, ">=", 1;
 cmp-ok now - $before-now, "<", 2;
@@ -70,4 +70,4 @@ subtest {
     await $p;
 }
 
-
+done-testing
