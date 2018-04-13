@@ -34,3 +34,4 @@ unmock-time;
 cmp-ok now - $before-now, "<", 1;
 is time - $before-time, 0 | 1;
 
+done-testing
