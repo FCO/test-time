@@ -17,7 +17,7 @@
   "authors": [
     "fernando"
   ],
-  "test-depends": [
+  "depends": [
       "Test::Scheduler"
   ],
   "description": ""
