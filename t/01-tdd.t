@@ -1,22 +1,26 @@
 use Test;
 
+use Test::Time;
 use-ok "Test::Time";
 
-my $*SCHEDULER;
-use Test::Time;
-isa-ok &mock-time, Sub;
-isa-ok &unmock-time, Sub;
-throws-like { unmock-time }, X::AdHoc, :message => "Time isn't mocked yet";
-lives-ok { mock-time };
-lives-ok { unmock-time };
+subtest {
+    my $*SCHEDULER;
+    isa-ok &mock-time, Sub;
+    isa-ok &unmock-time, Sub;
+    throws-like { unmock-time }, X::AdHoc, :message => "Time isn't mocked yet";
+    lives-ok { mock-time };
+    lives-ok { unmock-time };
+}
 
-my $tai = now - time;
-$*SCHEDULER = mock-time $tai;
-is now, $tai;
-is time, 0;
-unmock-time;
-isnt now, $tai;
-isnt time, 0;
+subtest {
+    my $tai = now - time;
+    $*SCHEDULER = mock-time $tai;
+    is now, $tai;
+    is time, 0;
+    unmock-time;
+    isnt now, $tai;
+    isnt time, 0;
+}
 
 subtest {
     plan 6;
