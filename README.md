@@ -4,7 +4,7 @@
 
 Use `Test::Scheduler` to use on your tests, not only Promises, but `sleep`, `now` and time.
 
-```
+```perl6
 my $started = now;
 $*SCHEDULER = mock-time :auto-advance;
 
