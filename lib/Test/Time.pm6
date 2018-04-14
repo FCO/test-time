@@ -1,3 +1,29 @@
+=begin pod
+
+=head1 Test::Time
+
+Use B<Test::Scheduler> to use on your tests, not only Promises, but B<sleep>, B<now> and time.
+
+=begin code
+my $started = now;
+$*SCHEDULER = mock-time :auto-advance;
+
+sleep 10;
+say "did it passed { now - $started } seconds?";
+unmock-time;
+
+say "No, just passed { now - $started } seconds!";
+
+#`{{{
+Output:
+    did it passed 10.0016178 seconds?
+    No, just passed 0.07388266 seconds!
+}}}
+=end code
+
+Or you can use C<$*SCHEDULER.advance-by: 10> as you would when using B<Test::Scheduler>
+=end pod
+
 use Test::Scheduler;
 my %wraps;
 

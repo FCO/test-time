@@ -1,24 +1,32 @@
 {
-  "name": "Test::Time",
-  "perl": "v6.*",
-  "scripts": {
-    "test": "zef test ."
+  "name" : "Test::Time",
+  "source-url" : "git://github.com/FCO/test-time.git",
+  "support" : {
+    "source" : null
   },
-  "tags": [
+  "perl" : "6.*",
+  "depends" : [
+    "Test::Scheduler"
+  ],
+  "tags" : [
     "test",
     "time",
     "now",
     "date",
     "sleep"
   ],
-  "license": "https://opensource.org/licenses/Artistic-2.0",
-  "production": false,
-  "version": "0.0.1",
-  "authors": [
-    "fernando"
+  "license" : "Artistic-2.0",
+  "test-depends" : [
+    "Test::META"
   ],
-  "depends": [
-      "Test::Scheduler"
+  "provides" : {
+    "Test::Time" : "lib/Test/Time.pm6"
+  },
+  "production" : false,
+  "version" : "0.0.1",
+  "meta-version" : "0",
+  "authors" : [
+    "Fernando Correa de Oliveira"
   ],
-  "description": ""
+  "description" : ""
 }
