@@ -57,7 +57,7 @@ subtest {
     my $before-time = time;
     sleep 10;
     cmp-ok now - $before-now, ">=", 10;
-    is time - $before-time, 10;
+    is time - $before-time, (10|11);
     sleep 20;
     cmp-ok now - $before-now, ">=", 30;
     is time - $before-time, (30|31);
