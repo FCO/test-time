@@ -69,7 +69,7 @@ subtest {
 }
 
 subtest {
-    use v6.d.PREVIEW;
+    #use v6.d.PREVIEW;
     plan 3;
     $*SCHEDULER = mock-time;
     my $p2 = Promise.new;
