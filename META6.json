@@ -1,32 +1,36 @@
 {
-  "name" : "Test::Time",
-  "source-url" : "git://github.com/FCO/test-time.git",
-  "support" : {
-    "source" : null
-  },
-  "perl" : "6.*",
-  "depends" : [
+  "authors": [
+    "Fernando Correa de Oliveira"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
     "Test::Scheduler"
   ],
-  "tags" : [
+  "description": "",
+  "license": "Artistic-2.0",
+  "meta-version": "0",
+  "name": "Test::Time",
+  "perl": "6.*",
+  "production": false,
+  "provides": {
+    "Test::Time": "lib/Test/Time.pm6"
+  },
+  "resources": [
+  ],
+  "source-url": "https://github.com/FCO/test-time.git",
+  "support": {
+    "source": null
+  },
+  "tags": [
     "test",
     "time",
     "now",
     "date",
     "sleep"
   ],
-  "license" : "Artistic-2.0",
-  "test-depends" : [
+  "test-depends": [
     "Test::META"
   ],
-  "provides" : {
-    "Test::Time" : "lib/Test/Time.pm6"
-  },
-  "production" : false,
-  "version" : "0.0.1",
-  "meta-version" : "0",
-  "authors" : [
-    "Fernando Correa de Oliveira"
-  ],
-  "description" : ""
+  "version": "0.0.1"
 }

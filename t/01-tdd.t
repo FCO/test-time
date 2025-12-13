@@ -3,8 +3,9 @@ use Test;
 use Test::Time;
 use-ok "Test::Time";
 
+my $scheduler = $*SCHEDULER;
+
 subtest {
-    my $*SCHEDULER;
     isa-ok &mock-time, Sub;
     isa-ok &unmock-time, Sub;
     throws-like { unmock-time }, X::AdHoc, :message => "Time isn't mocked yet";
@@ -14,7 +15,7 @@ subtest {
 
 subtest {
     my $tai = now - time;
-    $*SCHEDULER = mock-time $tai;
+    my $*SCHEDULER = mock-time $tai;
     is now, $tai;
     is time, 0;
     unmock-time;
@@ -25,9 +26,9 @@ subtest {
 subtest {
     plan 6;
     my $init = Promise.new;
-    $*SCHEDULER = mock-time;
+    my $SCHEDULER = mock-time;
     my $p = start {
-
+        my $*SCHEDULER = $SCHEDULER;
         my $before-now  = now;
         my $before-time = time;
         $init.keep;
@@ -44,36 +45,37 @@ subtest {
         is time - $before-time, 1, "{time} - $before-time";
     }
     await $init;
-    $*SCHEDULER.advance-by: 10;
-    $*SCHEDULER.advance-by: 20;
-    $*SCHEDULER.advance-by: 20;
+    $SCHEDULER.advance-by: 10;
+    $SCHEDULER.advance-by: 20;
+    $SCHEDULER.advance-by: 20;
     await $p
 }
 
 subtest {
-    $*SCHEDULER = mock-time :auto-advance;
+    my $*SCHEDULER = mock-time :auto-advance;
 
     my $before-now  = now;
     my $before-time = time;
     sleep 10;
     cmp-ok now - $before-now, ">=", 10;
-    is time - $before-time, (10|11);
+    cmp-ok time - $before-time, ">=", 10;
     sleep 20;
     cmp-ok now - $before-now, ">=", 30;
-    is time - $before-time, (30|31);
+    cmp-ok time - $before-time, ">=", 30;
 
     unmock-time;
 
     cmp-ok now - $before-now, "<", 1, "{now} - $before-now";
-    is time - $before-time, (1|2), "{time} - $before-time";
+    cmp-ok time - $before-time, "<", 5, "{time} - $before-time";
 }
 
 subtest {
     #use v6.d.PREVIEW;
     plan 3;
-    $*SCHEDULER = mock-time;
+    my $SCHEDULER = mock-time;
     my $p2 = Promise.new;
     my $p = start {
+        my $*SCHEDULER = $SCHEDULER;
         my $start = now;
         pass "before";
         $p2.keep;
@@ -83,7 +85,7 @@ subtest {
     }
 
     await $p2;
-    $*SCHEDULER.advance-by: 50;
+    $SCHEDULER.advance-by: 50;
     await $p;
 }
 

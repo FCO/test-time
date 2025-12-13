@@ -6,18 +6,18 @@ Use B<Test::Scheduler> to use on your tests, not only Promises, but B<sleep>, B<
 
 =begin code
 my $started = now;
-$*SCHEDULER = mock-time :auto-advance;
+my $*SCHEDULER = mock-time :auto-advance;
 
 sleep 10;
 say "did it passed { now - $started } seconds?";
 unmock-time;
 
-say "No, just passed { now - $started } seconds!";
+say "No, only passed { now - $started } seconds!";
 
 #`{{{
 Output:
     did it passed 10.0016178 seconds?
-    No, just passed 0.07388266 seconds!
+    No, only passed 0.020109835 seconds!
 }}}
 =end code
 
@@ -32,16 +32,17 @@ sub unmock-time is export {
 }
 
 sub mock-time(Instant $now is copy = now, Bool :$auto-advance = False, Rat() :$interval = .1 --> Scheduler) is export {
-    my $*SCHEDULER = Test::Scheduler.new: :virtual-time($now);
+    my $orig = PROCESS::<$SCHEDULER>;
+    my $SCHEDULER = Test::Scheduler.new: :virtual-time($now);
 
     my $tai = now - time;
     %wraps<sleep> = &sleep.wrap: -> \seconds {
-        await Promise.in: seconds;
+        await Promise.in: seconds, :scheduler($SCHEDULER);
         Nil
     }
 
-    %wraps<now>     = &term:<now>.wrap:  { $*SCHEDULER.virtual-time }
-    %wraps<time>    = &term:<time>.wrap: { (now - $tai).Int }
+    %wraps<now>     = &term:<now>.wrap:  { $SCHEDULER.virtual-time }
+    %wraps<time>    = &term:<time>.wrap: { (&term:<now>() - $tai).Int }
     %wraps<unmock>  = &unmock-time.wrap: {
         &sleep.unwrap:          %wraps<sleep>;
         &term:<now>.unwrap:     %wraps<now>;
@@ -51,11 +52,13 @@ sub mock-time(Instant $now is copy = now, Bool :$auto-advance = False, Rat() :$i
         %wraps = ()
     }
 
-    start {
-        while %wraps.elems {
-            $*SCHEDULER.advance-by: $interval
+    if $auto-advance {
+        Promise.start: :scheduler($orig), {
+            while %wraps.elems {
+                $SCHEDULER.advance-by: $interval;
+            }
         }
-    } if $auto-advance;
+    }
 
-    $*SCHEDULER
+    $SCHEDULER
 }
