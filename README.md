@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/FCO/test-time.svg?branch=master)](https://travis-ci.org/FCO/test-time)
+[![test](https://github.com/FCO/test-time/actions/workflows/test.yml/badge.svg)](https://github.com/FCO/test-time/actions/workflows/test.yml)
 
 Test::Time
 ==========
