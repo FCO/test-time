@@ -8,7 +8,7 @@
   "depends": [
     "Test::Scheduler"
   ],
-  "description": "",
+  "description": "Mock time in Raku tests using Test::Scheduler — control now(), time(), and sleep()",
   "license": "Artistic-2.0",
   "meta-version": "0",
   "name": "Test::Time",
@@ -33,5 +33,5 @@
   "test-depends": [
     "Test::META"
   ],
-  "version": "0.0.2"
+  "version": "0.0.3"
 }
